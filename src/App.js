@@ -1,10 +1,11 @@
 
 import './App.css';
+import Login from './components/Login';
 
 function App() {
   return (
-    <div className="text-3xl font-bold text-green-800">
-      Namaste Everyone, let's build Netflix GPT
+    <div className="App">
+      <Login />
     </div>
   );
 }
