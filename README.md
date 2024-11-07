@@ -12,7 +12,6 @@
 - Deploying our app to production
 - Create SignUp User Account
 
-
 #Features
 - Login/Sign Up
   - Sign In / Sign up Form
