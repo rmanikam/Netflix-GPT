@@ -1,18 +1,74 @@
 import React , {useState, useRef} from 'react';
 import Header from './Header';
-import { checkValidData } from "../utils/validate";
+import { checkValidData } from "./utils/validate";
+import {auth} from "./utils/firebase.js";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from './userSlice.js';
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-
-  const name = useRef(null);
-  const email = useRef(null);
-  const password = useRef(null);
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let name = useRef(null);
+  let email = useRef(null);
+  let password = useRef(null);
   const handleButtonClick = () => {
-    const message = checkValidData(email.current.value, password.current.value);
-    setErrorMessage(message);
     
+    let name1 = name?.current?.value || "";
+    let email1 = email?.current?.value || "";
+    let password1 = password?.current?.value || "";
+    const message = checkValidData(name1,email1,password1);
+    setErrorMessage(message);
+
+    if(message) return;
+
+    // sign in- sign up
+
+  if(!isSignInForm)
+  {
+    createUserWithEmailAndPassword(auth, email1, password1)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    updateProfile(user, {
+      displayName: name1, photoURL: "https://avatars.githubusercontent.com/u/54769379?v=4"
+    }).then(() => {
+      navigate("/browse");
+    }).catch((error) => {
+        setErrorMessage(error.message);
+    });
+      
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+      setErrorMessage(errorCode + "-" + errorMessage);
+  }); 
+  }
+  else{
+    signInWithEmailAndPassword(auth, email1, password1)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    const {uid,email, password,photoURL}= auth.currentUser;
+
+    dispatch(addUser({uid:uid, email:email, password: password,photoURL:photoURL}));
+          
+    navigate("/browse");
+ 
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMessage(errorCode + "-" + errorMessage);
+  });
+
+  }
+  
+    
+
 
 
   };
