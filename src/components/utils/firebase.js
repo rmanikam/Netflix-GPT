@@ -16,10 +16,19 @@ const firebaseConfig = {
   messagingSenderId: "361425403818",
   appId: "1:361425403818:web:f4a88d992d04a0fd1935d3",
   measurementId: "G-H8FXY25B7L"
+  apiKey: "AIzaSyAGG1wHV11LkEKoND80voroPDxjK7VUtmU",
+  authDomain: "netflix-gpt-1ed2b.firebaseapp.com",
+  projectId: "netflix-gpt-1ed2b",
+  storageBucket: "netflix-gpt-1ed2b.firebasestorage.app",
+  messagingSenderId: "361425403818",
+  appId: "1:361425403818:web:f4a88d992d04a0fd1935d3",
+  measurementId: "G-H8FXY25B7L"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+export const auth = getAuth();
 
 export const auth = getAuth();

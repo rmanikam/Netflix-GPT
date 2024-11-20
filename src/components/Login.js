@@ -22,7 +22,11 @@ const Login = () => {
   const password = useRef(null);
 
   const handleButtonClick = () => {
-    const message = checkValidData(email.current.value, password.current.value);
+    
+    let name1 = name?.current?.value || "";
+    let email1 = email?.current?.value || "";
+    let password1 = password?.current?.value || "";
+    const message = checkValidData(name1,email1,password1);
     setErrorMessage(message);
     if (message) return;
 

@@ -43,6 +43,24 @@ const Body = () => {
     },
   ]);
 
+    useEffect(()=>
+    {
+      onAuthStateChanged(auth, (user) => {
+        // user sign in
+        if (user) {
+         
+          const {uid,email, password,photoURL}= user;
+           dispatch(addUser({uid:uid, email:email, password: password,photoURL:photoURL}));
+          
+        } else {
+           // sign out
+           dispatch(removeUser());
+
+        }
+      })
+
+    },[])
+
   return (
     <div>
       <RouterProvider router={appRouter} />
